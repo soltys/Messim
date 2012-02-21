@@ -76,6 +76,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HeadHelpers.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MessimContext.cs" />
     <Compile Include="Models\MessimInit.cs" />
@@ -127,9 +128,11 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

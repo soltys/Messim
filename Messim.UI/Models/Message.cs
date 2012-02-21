@@ -11,7 +11,7 @@ namespace Messim.UI.Models
         [MaxLength(200)]
         public string Text { get; set; }
 
-        public string ImageUrl { get; set; }
+        public virtual Image Image { get; set; }
 
         public virtual User UserID { get; set; }
         public DateTime Date { get; set; }
