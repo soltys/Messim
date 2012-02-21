@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messim.UI", "Messim.UI\Mess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messum.UI.Test", "Messum.UI.Test\Messum.UI.Test.csproj", "{0296860F-A451-463D-A7B4-AF227CA24BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messim.Service", "Messim.Service\Messim.Service.csproj", "{D48CCE3F-DAB3-4711-B98B-BAFD23A203D1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messim.Service.Test", "Messim.Service.Test\Messim.Service.Test.csproj", "{85D964F9-2AA2-415A-9EF2-948E8B3B5890}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,14 +19,6 @@ Global
 		{0296860F-A451-463D-A7B4-AF227CA24BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0296860F-A451-463D-A7B4-AF227CA24BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0296860F-A451-463D-A7B4-AF227CA24BFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D48CCE3F-DAB3-4711-B98B-BAFD23A203D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D48CCE3F-DAB3-4711-B98B-BAFD23A203D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D48CCE3F-DAB3-4711-B98B-BAFD23A203D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D48CCE3F-DAB3-4711-B98B-BAFD23A203D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{85D964F9-2AA2-415A-9EF2-948E8B3B5890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85D964F9-2AA2-415A-9EF2-948E8B3B5890}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85D964F9-2AA2-415A-9EF2-948E8B3B5890}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85D964F9-2AA2-415A-9EF2-948E8B3B5890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
