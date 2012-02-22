@@ -17,5 +17,6 @@ namespace Messim.UI.Models
         public DateTime Date { get; set; }
         public int LikeAmount { get; set; }
 
+        public virtual Message ReplyTo { get; set; }
     }
 }
