@@ -2,39 +2,41 @@
 @{
     ViewBag.Title = "List";
 }
-<h2>
-    List</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
-    <tr>
-        <th>
-            Username
-        </th>
-        <th>
-            Password
-        </th>
-        <th>
-        </th>
-    </tr>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var item in Model)
-        {
+<div class="hero-unit">
+    <h2>
+        List</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
+            <th>
+                Username
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+            </th>
         </tr>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    <pre>@Html.DisplayFor(modelItem => item.Password)</pre>
+                </td>
+                <td class="btn-group icon-remove">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID },new{@class="btn"}) 
+                    @Html.ActionLink("Details", "Details", new { id = item.ID },new{@class="btn icon-remove"}) 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn" })
+                </td>
+            </tr>
+            }
         }
-    }
-</table>
+    </table>
+</div>
