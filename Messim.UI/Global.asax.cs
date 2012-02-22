@@ -24,11 +24,18 @@ namespace Messim.UI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.MapRoute(
+                "Best",
+                "Best",
+                new { controller = "Home", action = "Best" });
+            routes.MapRoute(
+                "New",
+                "New",
+                new { controller = "Home", action = "New" });
+            routes.MapRoute(
                 "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "{controller}/{action}/{UserName}", // URL with parameters
+                new { controller = "Home", action = "Index", UserName = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
