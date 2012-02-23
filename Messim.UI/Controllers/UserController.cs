@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Messim.UI.Authentication;
 using Messim.UI.Models;
+using Messim.Util;
 
 namespace Messim.UI.Controllers
 {
@@ -22,6 +23,52 @@ namespace Messim.UI.Controllers
         {
 
             return View(new Models.MessimContext().Users.Select(x => x));
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Register(string username, string password, string passwordAgain)
+        {
+            if (!ValidateRegister(username, password, passwordAgain))
+            {
+                return View();
+            }
+            using (var _db = new MessimContext())
+            {
+                User newUser = new User { Username = username, Password = SHA.CreateSHA1Hash(password) };
+                _db.Users.Add(newUser);
+                _db.SaveChanges();
+            }
+
+            ViewBag.Success = true;
+            return View();
+        }
+
+        private bool ValidateRegister(string username, string password, string passwordAgain)
+        {
+            if (String.IsNullOrEmpty(username))
+            {
+                ModelState.AddModelError("username", "Musisz podać nazwę użytkownika");
+            }
+            if (String.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("password", "Musisz podać hasło");
+            }
+            if (password != passwordAgain)
+            {
+                ModelState.AddModelError("_FORM", "Hasła muszą być takie same");
+            }
+            var _db = new MessimContext();
+
+            if (_db.Users.ToList().Any(x => x.Username == username))
+            {
+                ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
+            }
+
+
+            return ModelState.IsValid;
         }
 
         public ActionResult Login()

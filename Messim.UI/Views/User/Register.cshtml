@@ -1,0 +1,51 @@
+﻿@model Messim.UI.Models.User
+@{
+    ViewBag.Title = "Zarejestruj się";
+}
+@if (@Html.ValidationSummary() != null)
+{ 
+    <div class="alert alert-error">
+        @Html.ValidationSummary()
+    </div>
+}
+<div class="hero-unit span4 offset3">
+    @if (ViewBag.Success != null && ViewBag.Success)
+    {
+        <div class="alert alert-success">
+            <h2>
+                Już po rejestracji!
+            </h2>
+            <h3>
+                Możesz @Html.ActionLink("zalogować się", "Login")</h3>
+        </div>
+    }
+    else
+    {
+        <h2>
+            Rejestracja
+        </h2>
+        using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "well" }))
+        {
+        <label>
+            Nazwa użytkownika
+        </label>    
+        @Html.TextBox("username", null, new { @class = "span3", placeholder = "Wprowadź swoją nazwę użytkownika" })
+        <label>
+            Hasło
+        </label>
+        @Html.Password("password", null, new { @class = "span3", placeholder = "Wprowadź swoje hasło" })    
+        <label>
+            Podaj ponownie hasło
+        </label>
+        @Html.Password("passwordAgain", null, new { @class = "span3", placeholder = "Wprowadź swoje ponownie hasło" })  
+        
+        <div style="clear: both; content: ''">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <i class="icon-user icon-white"></i>Zarejestruj się
+        </button>
+    
+        }
+    }
+</div>
