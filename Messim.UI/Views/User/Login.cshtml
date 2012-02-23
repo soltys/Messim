@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Zaloguj się";
 }
-<h2>
-    Login
-</h2>
+
 @if (@Html.ValidationSummary() != null)
 { 
     <div class="alert alert-error">
@@ -12,6 +10,9 @@
     </div>
 }
 <div class="hero-unit span4 offset3">
+    <h2>
+    Login
+</h2>
     @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "well" }))
     {
         <label>
