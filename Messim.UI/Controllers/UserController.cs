@@ -29,14 +29,14 @@ namespace Messim.UI.Controllers
             return View();
         }
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Login(string username, string password, string returnUrl)
+        public ActionResult Login(string username, string password, bool rememberUser, string returnUrl)
         {
             if (!ValidateLogOn(username, password))
             {
                 return View();
             }
 
-            FormsAuthentication.SetAuthCookie(username, true);
+            FormsAuthentication.SetAuthCookie(username, createPersistentCookie: rememberUser);
             if (!String.IsNullOrEmpty(returnUrl) && returnUrl != "/")
             {
                 return Redirect(returnUrl);

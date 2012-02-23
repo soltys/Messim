@@ -34,12 +34,14 @@
                     <ul class="nav pull-right">
                         @if (User.Identity.IsAuthenticated)
                         { 
-                            <li><a href="/User" >Jesteś zalogowany jako: @User.Identity.Name</a></li>
+                            <li><a href="/User">Jesteś zalogowany jako: @User.Identity.Name</a></li>
                             <li><a href="/User/Logout">Wyloguj się</a></li>
                         }
                         else
                         {
-                             <li><a href="/User/Register" style="cursor:default" >Nie zalogowany (zarejestuj się)</a></li>
+                            <li><a href="/User/Login">Zaloguj się</a></li>
+                            <li class="divider-vertical"></li>
+                            <li><a href="/User/Register">Zarejestuj się</a></li>
                         }
                     </ul>
                 </div>
