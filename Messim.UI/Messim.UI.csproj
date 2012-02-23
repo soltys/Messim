@@ -203,6 +203,7 @@
     <None Include="Content\less\bootstrap\wells.less" />
     <None Include="Content\less\style.less" />
     <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

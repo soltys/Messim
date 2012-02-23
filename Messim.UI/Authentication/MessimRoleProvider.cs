@@ -5,19 +5,13 @@ namespace Messim.UI.Authentication
     {
         public override bool IsUserInRole(string username, string roleName)
         {
-            if (username == "admin")
-            {
-                return true;
-            }
 
-            if (roleName != "regular")
-                return false;
             return true;
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            return new[] { "regular" };
+            return new[] { "admin", "default" };
         }
 
         public override void CreateRole(string roleName)
