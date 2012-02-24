@@ -31,3 +31,4 @@ _ReSharper*/
 Messim.UI/Web.Release.config
 
 Messim.UI/Messim.UI.Publish.xml
+Messim.UI/Content/uploads/*

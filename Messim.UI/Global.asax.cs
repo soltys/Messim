@@ -22,6 +22,7 @@ namespace Messim.UI
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("channel.html");
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.MapRoute(
                 "Best",
@@ -31,6 +32,11 @@ namespace Messim.UI
                 "New",
                 "New",
                 new { controller = "Home", action = "New" });
+            routes.MapRoute(
+                "SingleMessage",
+                "Message/{MessageID}",
+                new { controller = "Message", action = "Details" });
+
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{UserName}", // URL with parameters
@@ -45,7 +51,7 @@ namespace Messim.UI
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            System.Data.Entity.Database.SetInitializer(new MessimInit());
+            System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MessimContext>());
 
         }
     }

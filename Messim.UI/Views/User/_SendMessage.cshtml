@@ -1,1 +1,51 @@
-﻿<h2>Nowa wiadomość</h2>
+﻿@using Messim.UI.Helpers
+@Url.LoadJS("jquery.form.js")
+@Url.LoadJS("jquery.blockUI.js")
+<h2>
+    Nowa wiadomość
+</h2>
+<form action="@Url.Action("Send", "Message")" id="message-form" method="POST" class="well" enctype="multipart/form-data">
+    <label for="message">
+        Treść wiadomości</label>
+    <textarea class="input-xlarge" cols="50" name="message" id="message" rows="3"></textarea>
+    <label class="" for="fileInput">
+        Wybierz obrazek</label>
+    <input class="" id="fileInput" name="fileInput" type="file">
+    <button type="submit" class="btn btn-primary">
+        <i class="icon-envelope icon-white"></i>Wyślij wiadomość
+    </button>
+</form>
+<div class="alert alert-success" id="message-send-success" style="display: none">
+    <h4>Wysłałeś wiadomość</h4>
+</div>
+<div class="alert alert-error" id="message-send-error" style="display: none">
+ <h4>Nie udało się wysłać wiadomości :(</h4>
+</div>
+<script type="text/javascript">
+
+    $("#message-form").ajaxForm({
+        iframe: true,
+        dataType: "json",
+        beforeSubmit: function () {
+            $("#message-form").block({ message: '<h3>Wysyłanie pliku...</h3>' });
+        },
+        success: function (result) {
+            $("#message-form").unblock();
+            $("#message-form").resetForm();
+            $("#message-send-success").show();
+            $("#message-send-success").fadeIn(function () {
+                $(this).fadeOut(5000);
+            });
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $("#message-form").unblock();
+            $("#message-form").resetForm();
+            $("#message-send-error").fadeIn(function () {
+                $(this).fadeOut(5000);
+            });
+
+        }
+
+    });
+   
+</script>

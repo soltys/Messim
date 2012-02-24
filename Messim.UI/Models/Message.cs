@@ -13,7 +13,7 @@ namespace Messim.UI.Models
 
         public virtual Image Image { get; set; }
 
-        public virtual User UserID { get; set; }
+        public virtual User Sender { get; set; }
         public DateTime Date { get; set; }
         public int LikeAmount { get; set; }
 

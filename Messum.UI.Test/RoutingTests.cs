@@ -90,8 +90,18 @@ namespace Messum.UI.Test
         }
 
 
-        
 
+        [Test]
+        public void slash_message_id_message_details_messageid()
+        {
+            const string url = "~/Message/34";
+            RouteHelpers.TestRoute(url, new
+                                            {
+                                                Controller = "Message",
+                                                Action = "Details",
+                                                MessageID = 34,
+                                            });
+        }
         [Test]
         public void slash_new_Home_New()
         {

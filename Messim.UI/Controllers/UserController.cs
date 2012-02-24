@@ -14,16 +14,27 @@ namespace Messim.UI.Controllers
     {
         //
         // GET: /User/
-        MembershipProvider provider = new MessimMembershipProvider();
+        readonly MembershipProvider provider = new MessimMembershipProvider();
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }
-            int userID = new MessimContext().Users.Single(x => x.Username == User.Identity.Name).ID;
-            ViewData["PostNumber"] = new MessimContext().Messages.Count(x => x.ID == userID);
-            ViewData["UserID"] = userID;
+            var db = new MessimContext();
+
+            var user = db.Users.Single(x => x.Username == User.Identity.Name);
+
+            ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID);
+            var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID);
+            var subscipsionsMessages = from msg in db.Messages
+                                       from usr in user.Subscribents
+                                       where msg.Sender.ID == usr.ID
+                                       select msg;
+            ViewData["DisplayMessages"] = userMessages.Union(subscipsionsMessages).ToArray();
+            ViewData["Sender"] = user.ID;
+
+
             return View();
         }
 
@@ -63,15 +74,14 @@ namespace Messim.UI.Controllers
             {
                 ModelState.AddModelError("_FORM", "Hasła muszą być takie same");
             }
-            var _db = new MessimContext();
-
-
-            if (_db.Users.ToList().Any(x => x.Username == username))
+            using (var _db = new MessimContext())
             {
-                ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
+                if (_db.Users.ToList().Any(x => x.Username == username))
+                {
+                    ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
+                }
+
             }
-
-
             return ModelState.IsValid;
         }
 
