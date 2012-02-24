@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = User.Identity.Name;
+}
+<div class="span12">
+    <div class="row-fluid">
+        <div class="span4">
+            <h2>
+                Witaj - @User.Identity.Name</h2>
+            <p>
+                napisałeś @ViewData["PostNumber"] wiadomości
+            </p>
+            <div>
+                @RenderPage("_SendMessage.cshtml")
+            </div>
+        </div>
+        <div class="span8">
+            <h2>
+                Wiadomości
+            </h2>
+            <hr />
+        </div>
+    </div>
+</div>

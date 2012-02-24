@@ -17,6 +17,13 @@ namespace Messim.UI.Controllers
         MembershipProvider provider = new MessimMembershipProvider();
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login");
+            }
+            int userID = new MessimContext().Users.Single(x => x.Username == User.Identity.Name).ID;
+            ViewData["PostNumber"] = new MessimContext().Messages.Count(x => x.ID == userID);
+            ViewData["UserID"] = userID;
             return View();
         }
 
