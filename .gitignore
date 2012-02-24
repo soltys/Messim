@@ -28,4 +28,6 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 
-Messim.UI/web*.config
+Messim.UI/Web.Release.config
+
+Messim.UI/Messim.UI.Publish.xml
