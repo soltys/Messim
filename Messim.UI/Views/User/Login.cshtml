@@ -2,17 +2,16 @@
 @{
     ViewBag.Title = "Zaloguj się";
 }
-
 @if (@Html.ValidationSummary() != null)
 { 
     <div class="alert alert-error">
         @Html.ValidationSummary()
     </div>
 }
-<div class="hero-unit span4 offset3">
+<div class="span5 offset3   ">
     <h2>
-    Login
-</h2>
+        Login
+    </h2>
     @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "well" }))
     {
         <label>
@@ -29,7 +28,8 @@
             Zapamiętaj mnie
         </label>
         
-        <div style="clear: both; content: ''"></div>
+        <div style="clear: both; content: ''">
+        </div>
         
         <button type="submit" class="btn btn-primary">
             <i class="icon-ok-sign icon-white"></i>Zaloguj się

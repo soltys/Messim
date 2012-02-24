@@ -58,6 +58,7 @@ namespace Messim.UI.Controllers
             }
             var _db = new MessimContext();
 
+
             if (_db.Users.ToList().Any(x => x.Username == username))
             {
                 ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");

@@ -8,7 +8,7 @@
         @Html.ValidationSummary()
     </div>
 }
-<div class="hero-unit span4 offset3">
+<div class="span5 offset3">
     @if (ViewBag.Success != null && ViewBag.Success)
     {
         <div class="alert alert-success">
@@ -16,7 +16,7 @@
                 Już po rejestracji!
             </h2>
             <h3>
-                Możesz @Html.ActionLink("zalogować się", "Login")</h3>
+                Możesz się @Html.ActionLink("zalogować", "Login")</h3>
         </div>
     }
     else
