@@ -19,11 +19,7 @@ namespace Messim.UI.Controllers
         {
             return View();
         }
-        public ActionResult List()
-        {
 
-            return View(new Models.MessimContext().Users.Select(x => x));
-        }
         public ActionResult Register()
         {
             return View();
