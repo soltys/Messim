@@ -1,0 +1,10 @@
+﻿@using Messim.UI.Models
+@{
+    ViewBag.Title = "Best";
+    var DisplayMessages = ViewData["DisplayMessages"] as IEnumerable<Message>;
+}
+
+<h2>Best</h2>
+<div class="span12">
+@RenderPage("../Shared/_DisplayMessages.cshtml",new {Messages = DisplayMessages});
+</div>

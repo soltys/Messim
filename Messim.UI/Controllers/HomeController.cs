@@ -28,5 +28,16 @@ namespace Messim.UI.Controllers
 
             return View();
         }
+        public ActionResult Best()
+        {
+            Message[] newMessages = null;
+            var db = new MessimContext();
+
+            newMessages = db.Messages.OrderByDescending(x => x.LikeAmount).Take(50).ToArray();
+
+            ViewData["DisplayMessages"] = newMessages;
+
+            return View();
+        }
     }
 }

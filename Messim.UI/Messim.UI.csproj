@@ -206,6 +206,7 @@
     <Content Include="Views\Shared\_FacebookSDK.cshtml" />
     <Content Include="Views\Shared\_DisplayMessages.cshtml" />
     <Content Include="Views\Home\New.cshtml" />
+    <Content Include="Views\Home\Best.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
