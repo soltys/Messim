@@ -71,7 +71,7 @@ window.fbAsyncInit = function () {
             
             var dataToSend = { messageId: msgId };
             $.ajax({
-            url: "@Url.Action("Unlike", "Message")",
+            url: "@Url.Action("Dislike", "Message")",
             data: objToQuerystring(dataToSend),
             dataType: "json",
             type:"POST",

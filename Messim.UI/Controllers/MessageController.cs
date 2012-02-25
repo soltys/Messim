@@ -60,7 +60,7 @@ namespace Messim.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Unlike(int messageId)
+        public ActionResult Dislike(int messageId)
         {
             using (var db = new MessimContext())
             {
