@@ -37,7 +37,9 @@ namespace Messim.UI
             routes.MapRoute("MessageSend",
                             "Message/Send",
                             new { controller = "Message", action = "Send" });
-
+            routes.MapRoute("MessageLike",
+                            "Message/Like",
+                            new { controller = "Message", action = "Like" });
             routes.MapRoute(
                                  "SingleMessage",
                                  "Message/{id}",

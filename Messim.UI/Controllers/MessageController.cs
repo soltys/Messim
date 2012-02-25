@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -36,6 +37,26 @@ namespace Messim.UI.Controllers
             }
             // Return JSON
             return new JsonResult { Data = new { Msg = "Success" } };
+        }
+
+        [HttpPost]
+        public ActionResult Like(int messageId)
+        {
+            using (var db = new MessimContext())
+            {
+                var message = db.Messages.SingleOrDefault(x => x.ID == messageId);
+
+                if (message == null)
+                {
+                    //FIXME: log error
+                    return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
+                }
+
+                message.LikeAmount += 1;
+                db.Entry(message).State = EntityState.Modified;
+                db.SaveChanges();
+                return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " liked" } };
+            }
         }
 
     }
