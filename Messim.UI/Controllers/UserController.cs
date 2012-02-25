@@ -31,7 +31,10 @@ namespace Messim.UI.Controllers
                                         from usr in user.Subscribents
                                         where msg.Sender.ID == usr.ID
                                         select msg).ToList();
-            ViewData["DisplayMessages"] = userMessages.Union(subscipsionsMessages).OrderByDescending(x => x.Date.Date).ToArray();
+
+            var messageUnion = userMessages.Union(subscipsionsMessages).ToList();
+            messageUnion.Sort((x, y) => y.Date.CompareTo(x.Date));
+            ViewData["DisplayMessages"] = messageUnion;
             ViewData["Sender"] = user.ID;
 
 
