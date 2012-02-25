@@ -51,5 +51,37 @@ window.fbAsyncInit = function () {
             }
             });
         });
+    FB.Event.unsubscribe('edge.create',
+        function (response) {
+            var tokens = response.split("/");
+            tokens.reverse();
+            var msgId = parseInt(tokens[0]);
+            if (isNaN(msgId)) {
+                return false;
+            }
+            if (tokens[1] !== "Message") {
+                return false;
+            }
+            var objToQuerystring = function(obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            };
+            
+            var dataToSend = { messageId: msgId };
+            $.ajax({
+            url: "@Url.Action("Unlike", "Message")",
+            data: objToQuerystring(dataToSend),
+            dataType: "json",
+            type:"POST",
+            success: function(data, textStatus, jqXHR) {
+                console.log(data.ConsoleMessage);
+            },
+            error:function(data, textStatus, jqXHR) {
+                console.log(textStatus);
+            }
+            });
+        });
 };
 </script>

@@ -59,6 +59,28 @@ namespace Messim.UI.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Unlike(int messageId)
+        {
+            using (var db = new MessimContext())
+            {
+                var message = db.Messages.SingleOrDefault(x => x.ID == messageId);
+
+                if (message == null)
+                {
+                    //FIXME: log error
+                    return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
+                }
+                if (message.LikeAmount > 0)
+                {
+                    message.LikeAmount -= 1;
+                }
+                db.Entry(message).State = EntityState.Modified;
+                db.SaveChanges();
+                return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
+            }
+        }
+
     }
 
     public class FileUploadJsonResult : JsonResult
