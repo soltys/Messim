@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Messim.UI.Models;
 
 namespace Messim.UI.Controllers
 {
@@ -13,6 +14,18 @@ namespace Messim.UI.Controllers
 
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult New()
+        {
+            Message[] newMessages = null;
+            var db = new MessimContext();
+
+            newMessages = db.Messages.OrderByDescending(x => x.Date).Take(50).ToArray();
+
+            ViewData["DisplayMessages"] = newMessages;
+
             return View();
         }
     }
