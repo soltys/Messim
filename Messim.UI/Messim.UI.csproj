@@ -204,6 +204,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\_SendMessage.cshtml" />
     <Content Include="Views\Shared\_FacebookSDK.cshtml" />
+    <Content Include="Views\User\_DisplayMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,20 +22,7 @@
                 Wiadomości
             </h2>
             <hr />
-            @foreach (var a in DisplayMessages)
-            {
-                <div class="row">
-                    <div class="span2">
-                        <p>@a.Text</p>
-                        <p>
-                            <fb:like href="@Request.Url.Authority/Message/@a.ID" send="false" layout="box_count" width="450" show_faces="false" font="arial"></fb:like>
-                        </p>
-                    </div>
-                    <div class="span6">
-                        <img src="@a.Image.URL" width="@a.Image.Width" height="@a.Image.Height" alt="Wysłane @a.Date"/>
-                    </div>
-                </div>
-            }
+          @RenderPage("_DisplayMessages.cshtml",new {Messages = DisplayMessages});
         </div>
     </div>
 </div>

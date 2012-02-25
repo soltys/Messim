@@ -1,0 +1,19 @@
+﻿@using System.Collections
+@using Messim.UI.Models
+@{
+    IEnumerable<Message> messages = Page.Messages;
+}
+@foreach (var message in messages)
+{
+    <div class="row">
+        <div class="span2">
+            <p>@message.Text</p>
+            <div class="fb-like" data-href="@Request.Url.Authority/Message/@message.ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial">
+            </div>
+        </div>
+        <div class="span6">
+            <img src="@message.Image.URL" width="@message.Image.Width" height="@message.Image.Height" alt="Wysłane @message.Date"/>
+        </div>
+    </div>
+    
+}
