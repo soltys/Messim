@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Messim.UI.Models;
 using Image = Messim.UI.Models.Image;
@@ -15,26 +16,26 @@ namespace Messim.UI.Controllers
         //
         // POST: /Message/Send
         [HttpPost]
-        public FileUploadJsonResult Send(string message, HttpPostedFileBase fileInput)
+        public JsonResult Send(string messageText, HttpPostedFileBase messageImage)
         {
             string path = null;
-            if (fileInput.ContentLength > 0)
+            if (messageImage.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(fileInput.FileName);
+                var fileName = Path.GetFileName(messageImage.FileName);
                 path = Path.Combine(Server.MapPath("~/Content/uploads"), fileName);
-                fileInput.SaveAs(path);
+                messageImage.SaveAs(path);
             }
             var image = new Bitmap(path);
             using (var db = new MessimContext())
             {
                 var user = db.Users.Single(x => x.Username == User.Identity.Name);
-                var newImage = new Image { URL = "/Content/uploads/" + Path.GetFileName(fileInput.FileName), Width = image.Width, Height = image.Height };
-                var newMessage = new Message { Text = message, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage };
+                var newImage = new Image { URL = "/Content/uploads/" + Path.GetFileName(messageImage.FileName), Width = image.Width, Height = image.Height };
+                var newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage };
                 db.Messages.Add(newMessage);
                 db.SaveChanges();
             }
             // Return JSON
-            return new FileUploadJsonResult { Data = new { message = string.Format("{0} uploaded successfully.", System.IO.Path.GetFileName(fileInput.FileName)) } };
+            return new JsonResult { Data = new { Msg = "Success" } };
         }
 
     }

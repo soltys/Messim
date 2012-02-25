@@ -32,16 +32,24 @@ namespace Messim.UI
                 "New",
                 "New",
                 new { controller = "Home", action = "New" });
+
+
+            routes.MapRoute("MessageSend",
+                            "Message/Send",
+                            new { controller = "Message", action = "Send" });
+
             routes.MapRoute(
-                "SingleMessage",
-                "Message/{MessageID}",
-                new { controller = "Message", action = "Details" });
+                                 "SingleMessage",
+                                 "Message/{id}",
+                                 new { controller = "Message", action = "Details", id = @"\d+" });
+
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{UserName}", // URL with parameters
-                new { controller = "Home", action = "Index", UserName = UrlParameter.Optional } // Parameter defaults
-            );
+                new { controller = "Home", action = "Index", UserName = UrlParameter.Optional });// Parameter defaults
+
+
         }
 
         protected void Application_Start()
@@ -51,7 +59,12 @@ namespace Messim.UI
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
+#if DEBUG
+
             System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MessimContext>());
+#else
+            Database.SetInitializer(new MessimInit());
+#endif
 
         }
     }
