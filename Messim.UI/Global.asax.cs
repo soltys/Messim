@@ -33,21 +33,11 @@ namespace Messim.UI
                 "New",
                 new { controller = "Home", action = "New" });
 
-
-            routes.MapRoute("MessageSend",
-                            "Message/Send",
-                            new { controller = "Message", action = "Send" });
-            routes.MapRoute("MessageLike",
-                            "Message/Like",
-                            new { controller = "Message", action = "Like" });
-
-            routes.MapRoute("MessageDislike",
-                       "Message/Dislike",
-                       new { controller = "Message", action = "Dislike" });
             routes.MapRoute(
-                                 "SingleMessage",
-                                 "Message/{id}",
-                                 new { controller = "Message", action = "Details", id = @"\d+" });
+                "SingleMessage",
+                "Message/{id}",
+                new { controller = "Message", action = "Details" },
+                new { id = @"\d+" });
 
 
             routes.MapRoute(
