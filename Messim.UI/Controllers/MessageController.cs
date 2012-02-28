@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -36,7 +37,8 @@ namespace Messim.UI.Controllers
                 db.SaveChanges();
             }
             // Return JSON
-            return new JsonResult { Data = new { Msg = "Success" } };
+            var result = new JsonResult {ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8",JsonRequestBehavior = JsonRequestBehavior.DenyGet};
+            return result;
         }
 
         [HttpPost]
