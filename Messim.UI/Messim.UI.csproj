@@ -207,6 +207,7 @@
     <Content Include="Views\Shared\_DisplayMessages.cshtml" />
     <Content Include="Views\Home\New.cshtml" />
     <Content Include="Views\Home\Best.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

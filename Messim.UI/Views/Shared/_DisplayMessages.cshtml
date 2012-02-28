@@ -12,7 +12,9 @@
             </div>
         </div>
         <div class="span6">
-            <img src="@message.Image.URL" width="@message.Image.Width" height="@message.Image.Height" alt="Wysłane @message.Date"/>
+            <a href="@Url.Action("Details","Message",new {id=@message.ID})">
+                <img src="@message.Image.URL" width="@message.Image.Width" height="@message.Image.Height" alt="Wysłane @message.Date"/>
+            </a>
         </div>
     </div>
     

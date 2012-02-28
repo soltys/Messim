@@ -15,6 +15,20 @@ namespace Messim.UI.Controllers
 {
     public class MessageController : Controller
     {
+
+
+        //GET: //Message/<ID
+        public ActionResult Details(int id)
+        {
+  
+            var db = new MessimContext();
+            
+                var msg = db.Messages.First(x => x.ID == id);
+            
+
+                return View(msg);
+        }
+
         //
         // POST: /Message/Send
         [HttpPost]
@@ -37,7 +51,7 @@ namespace Messim.UI.Controllers
                 db.SaveChanges();
             }
             // Return JSON
-            var result = new JsonResult {ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8",JsonRequestBehavior = JsonRequestBehavior.DenyGet};
+            var result = new JsonResult { ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8", JsonRequestBehavior = JsonRequestBehavior.DenyGet };
             return result;
         }
 
