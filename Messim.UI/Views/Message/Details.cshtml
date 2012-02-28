@@ -1,10 +1,34 @@
-﻿@model Messim.UI.Models.Message
+﻿@using Messim.UI.Models
 
 @{
-    ViewBag.Title = "Message " + @Model.ID;
+    var DisplayMessages = ViewData["DisplayMessages"] as IEnumerable<Message>;
+    var Model = ViewData["Message"] as Message;
+    ViewBag.Title = "Wiadomość " + @Model.ID;
 }
 
 <h2>Wiadomość</h2>
-<div class="span12"></div>
+<div class="span12">
 <p>@Model.Sender.Username napisał: @Model.Text</p>
 <img src="@Model.Image.URL" width="@Model.Image.Width" height="@Model.Image.Height" alt="@Model.Date"/>
+    <div class="row-fluid">
+        <div class="span4">
+            <div>
+                @RenderPage("_ReplyMessage.cshtml", new { MessageId = @Model.ID })
+            </div>
+        </div>
+        <div class="span8">
+            @if(DisplayMessages != null)
+            {
+            <h2>
+                Odpowiedzi
+            </h2>
+            <hr />
+            @RenderPage("../Shared/_DisplayMessages.cshtml",new {Messages = DisplayMessages})
+            }
+            else
+            {
+                <h2>Brak odpowiedzi</h2>
+            }
+        </div>
+    </div>
+</div>

@@ -26,10 +26,10 @@ namespace Messim.UI.Controllers
             var user = db.Users.Single(x => x.Username == User.Identity.Name);
 
             ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID);
-            var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID).ToList();
+            var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID&&x.ReplyTo ==null).ToList();
             var subscipsionsMessages = (from msg in db.Messages
                                         from usr in user.Subscribents
-                                        where msg.Sender.ID == usr.ID
+                                        where msg.Sender.ID == usr.ID && msg.ReplyTo == null
                                         select msg).ToList();
 
             var messageUnion = userMessages.Union(subscipsionsMessages).ToList();
@@ -79,7 +79,8 @@ namespace Messim.UI.Controllers
             }
             using (var _db = new MessimContext())
             {
-                if (_db.Users.ToList().Any(x => x.Username == username))
+
+                if (_db.Users.Any() && _db.Users.ToList().Any(x => x.Username == username))
                 {
                     ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
                 }

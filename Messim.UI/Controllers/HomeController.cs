@@ -22,7 +22,7 @@ namespace Messim.UI.Controllers
             Message[] newMessages = null;
             var db = new MessimContext();
 
-            newMessages = db.Messages.OrderByDescending(x => x.Date).Take(50).ToArray();
+            newMessages = db.Messages.Where(x=> x.ReplyTo == null).OrderByDescending(x => x.Date).Take(50).ToArray();
 
             ViewData["DisplayMessages"] = newMessages;
 
@@ -33,7 +33,7 @@ namespace Messim.UI.Controllers
             Message[] newMessages = null;
             var db = new MessimContext();
 
-            newMessages = db.Messages.OrderByDescending(x => x.LikeAmount).Take(50).ToArray();
+            newMessages = db.Messages.Where(x=> x.ReplyTo == null).OrderByDescending(x => x.LikeAmount).Take(50).ToArray();
 
             ViewData["DisplayMessages"] = newMessages;
 

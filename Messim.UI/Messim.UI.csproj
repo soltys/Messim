@@ -208,6 +208,7 @@
     <Content Include="Views\Home\New.cshtml" />
     <Content Include="Views\Home\Best.cshtml" />
     <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\_ReplyMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -230,7 +231,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3899</DevelopmentServerPort>
+          <DevelopmentServerPort>12660</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
