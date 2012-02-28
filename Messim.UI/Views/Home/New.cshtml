@@ -4,9 +4,14 @@
 
     var DisplayMessages = ViewData["DisplayMessages"] as IEnumerable<Message>;
 }
+
+<script type="text/javascript">
+    $("#nav-bar-new").addClass("active");
+</script>
+
 @RenderPage("../Shared/_FacebookSDK.cshtml")
 <h2>New</h2>
 <div class="span12">
-@RenderPage("../Shared/_DisplayMessages.cshtml",new {Messages = DisplayMessages});
+@RenderPage("../Shared/_DisplayMessages.cshtml",new {Messages = DisplayMessages})
 </div>
 
