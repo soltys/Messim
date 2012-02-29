@@ -20,14 +20,13 @@ namespace Messim.UI.Controllers
         //GET: //Message/<ID
         public ActionResult Details(int id)
         {
-  
             var db = new MessimContext();
-            
-                var msg = db.Messages.First(x => x.ID == id);
-            ViewData["DisplayMessages"] = db.Messages.Where(x=> x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
+
+            var msg = db.Messages.First(x => x.ID == id);
+            ViewData["DisplayMessages"] = db.Messages.Where(x => x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
             ViewData["Message"] = msg;
 
-                return View();
+            return View();
         }
 
         //
@@ -41,7 +40,7 @@ namespace Messim.UI.Controllers
             return result;
         }
 
-        private void SendMessageToDatabase(string messageText, HttpPostedFileBase messageImage, int? replyTo =null)
+        private void SendMessageToDatabase(string messageText, HttpPostedFileBase messageImage, int? replyTo = null)
         {
             string path = null;
             if (messageImage.ContentLength > 0)
@@ -62,14 +61,14 @@ namespace Messim.UI.Controllers
                                    };
 
                 Message newMessage;
-                if(replyTo != null)
+                if (replyTo != null)
                 {
                     var messageReplaingTo = db.Messages.First(x => x.ID == replyTo);
                     newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage, ReplyTo = messageReplaingTo };
                 }
                 else
                 {
-                    newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage};
+                    newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage };
                 }
                 db.Messages.Add(newMessage);
                 db.SaveChanges();
@@ -82,10 +81,10 @@ namespace Messim.UI.Controllers
             Message messageReplaingTo = null;
             using (var db = new MessimContext())
             {
-                
+
             }
             SendMessageToDatabase(messageText, messageImage, messageId);
-            
+
 
             var result = new JsonResult { ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8", JsonRequestBehavior = JsonRequestBehavior.DenyGet };
             return result;
@@ -132,7 +131,7 @@ namespace Messim.UI.Controllers
                 return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
             }
         }
-        
+
     }
 
     public class FileUploadJsonResult : JsonResult
