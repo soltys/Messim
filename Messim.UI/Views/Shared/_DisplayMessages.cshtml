@@ -7,7 +7,9 @@
 {
     <div class="row">
         <div class="span2">
-            <p>@message.Sender.Username napisał: @message.Text</p>
+            
+        <p style="font-size: 21pt">@message.Sender.Username</p>
+        <p class="triangle-right top"> @message.Text</p>
             <div class="fb-like" data-href="@Request.Url.Authority/Message/@message.ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial">
             </div>
         </div>

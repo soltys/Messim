@@ -110,6 +110,7 @@
     <Content Include="Content\js\libs\modernizr-2.5.3-respond-1.1.0.min.js" />
     <Content Include="Content\js\plugins.js" />
     <Content Include="Content\js\script.js" />
+    <Content Include="Content\less\speechbubbles.css" />
     <Content Include="Content\less\style.css" />
     <Content Include="channel.html" />
     <Content Include="Views\Shared\robots.txt" />

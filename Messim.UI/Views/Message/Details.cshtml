@@ -1,5 +1,5 @@
 ﻿@using Messim.UI.Models
-
+@using Messim.UI.Helpers
 @{
     var DisplayMessages = ViewData["DisplayMessages"] as IEnumerable<Message>;
     var Model = ViewData["Message"] as Message;
@@ -8,8 +8,9 @@
 
 <h2>Wiadomość</h2>
 <div class="span12">
-    <p>@Model.Sender.Username napisał: @Model.Text</p>
+<p style="margin-bottom: 22px"><span style="font-size: 21pt">@Model.Sender.Username</span> <span class="triangle-right left">@Model.Text</span></p>
     <img src="@Model.Image.URL" width="@Model.Image.Width" height="@Model.Image.Height" alt="@Model.Date"/>
+     <div class="fb-like" data-href="@Request.Url.Authority/Message/@Model.ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial">
     <div class="row-fluid">
         @if (User.Identity.IsAuthenticated)
         {
