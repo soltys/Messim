@@ -26,7 +26,7 @@ namespace Messim.UI.Controllers
 
             var user = db.Users.Single(x => x.Username == User.Identity.Name);
 
-            ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID);
+            ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
             var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
             var subscipsionsMessages = (from msg in db.Messages
                                         from usr in user.Subscribents
