@@ -2,7 +2,19 @@
 @using Messim.UI.Models
 @{
     IEnumerable<Message> messages = Page.Messages;
-}
+} 
+
+<style>
+    .message-box {
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px; /* future proofing */
+        background-color: #333;
+        text-align: center;
+        
+    }
+</style>
+
 @foreach (var message in messages)
 {
     <div class="row">
@@ -10,14 +22,17 @@
             
         <p style="font-size: 21pt">@message.Sender.Username</p>
         <p class="triangle-right top"> @message.Text</p>
-            <div class="fb-like" data-href="@Request.Url.Authority/Message/@message.ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial">
-            </div>
+           
         </div>
-        <div class="span6">
+        <div class="span6 message-box">
             <a href="@Url.Action("Details","Message",new {id=@message.ID})">
                 <img src="@message.Image.URL" width="@message.Image.Width" height="@message.Image.Height" alt="Wysłane @message.Date"/>
             </a>
+            <div class="fb-like" data-href="@Request.Url.Authority/Message/@message.ID" data-send="false" data-layout="button_count"  colorscheme="dark"  data-width="50" data-show-faces="false" data-font="arial">
+            </div>
+            
         </div>
+        
     </div>
-    
+    <hr/>
 }

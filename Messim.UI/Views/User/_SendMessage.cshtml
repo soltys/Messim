@@ -7,10 +7,12 @@
 </h2>
 <form action="@Url.Action("Send", "Message")" id="message-form" method="POST" class="well" enctype="multipart/form-data">
     <label for="message">
-        Treść wiadomości</label>
+        <strong>Treść wiadomości</strong>
+        </label>
     <textarea class="input-xlarge" cols="50" name="messageText" id="message" rows="3"></textarea>
+    <p>pozostało <span id="message-chars-count">175</span> znaków</p>
     <label class="" for="fileInput">
-        Wybierz obrazek</label>
+        <strong>Wybierz obrazek</strong></label>
     <input class="" id="fileInput" name="messageImage" type="file" accept="image/*"/>
     <button type="submit" class="btn btn-primary">
         <i class="icon-envelope icon-white"></i>Wyślij wiadomość
@@ -23,6 +25,20 @@
  <h4>Nie udało się wysłać wiadomości :(</h4>
 </div>
 <script type="text/javascript">
+
+
+    $('#message').keyup(function () {
+        var charLength = $(this).val().length;
+        // Displays count
+        $('#message-chars-count').text((175 - charLength).toString());
+        // Alerts when 250 characters is reached
+        if (charLength > 175) {
+            $('button[type=submit]').attr('disabled', 'disabled');
+        } else {
+            $('button[type=submit]').removeAttr('disabled');
+        }
+           
+    });
 
     $("#message-form").ajaxForm({
         iframe: true,
