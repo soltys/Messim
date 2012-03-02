@@ -28,14 +28,9 @@ namespace Messim.UI.Controllers
 
             ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
             var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
-            var subscipsionsMessages = (from msg in db.Messages
-                                        from usr in user.Subscribents
-                                        where msg.Sender.ID == usr.ID && msg.ReplyTo == null
-                                        select msg).ToList();
 
-            var messageUnion = userMessages.Union(subscipsionsMessages).ToList();
-            messageUnion.Sort((x, y) => y.Date.CompareTo(x.Date));
-            ViewData["DisplayMessages"] = messageUnion;
+            userMessages.Sort((x, y) => y.Date.CompareTo(x.Date));
+            ViewData["DisplayMessages"] = userMessages;
             ViewData["Sender"] = user.ID;
 
 
@@ -89,7 +84,32 @@ namespace Messim.UI.Controllers
             }
             return ModelState.IsValid;
         }
+        public ActionResult List(string username)
+        {
+         
+            var db = new MessimContext();
+            User user;
+            try
+            {
+                user = db.Users.Single(x => x.Username == username);
+            }
+            catch (Exception)
+            {
+                user = null;
+                return RedirectToAction("NoUser");
+            }
+            if(user != null)
+            {
+                ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
+                ViewData["Username"] = user.Username;
+                var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
 
+                userMessages.Sort((x, y) => y.Date.CompareTo(x.Date));
+                ViewData["DisplayMessages"] = userMessages;
+            }
+
+            return View();   
+        }
         public ActionResult Login()
         {
             return View();

@@ -1,42 +1,20 @@
-﻿@model IEnumerable<Messim.UI.Models.User>
+﻿@using Messim.UI.Models
 @{
-    ViewBag.Title = "List";
+    var username = ViewData["Username"] as string;
+    ViewBag.Title = username; 
+    var DisplayMessages = ViewData["DisplayMessages"] as IEnumerable<Message>;
 }
-<div class="hero-unit">
-    <h2>
-        List</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table>
-        <tr>
-            <th>
-                Username
-            </th>
-            <th>
-                Password
-            </th>
-            <th>
-            </th>
-        </tr>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Username)
-                </td>
-                <td>
-                    <pre>@Html.DisplayFor(modelItem => item.Password)</pre>
-                </td>
-                <td class="btn-group icon-remove">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID },new{@class="btn"}) 
-                    @Html.ActionLink("Details", "Details", new { id = item.ID },new{@class="btn icon-remove"}) 
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn" })
-                </td>
-            </tr>
-            }
-        }
-    </table>
+@RenderPage("../Shared/_FacebookSDK.cshtml")
+
+
+<div class="span12">
+    <div class="row">
+        <div class="span8">
+            <h2>
+                Wiadomości użytkownika - @username
+            </h2>
+            <hr />
+          @RenderPage("../Shared/_DisplayMessages.cshtml",new {Messages = DisplayMessages})
+        </div>
+    </div>
 </div>
