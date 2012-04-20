@@ -67,30 +67,21 @@ namespace Messim.UI.Controllers
                                };
 
             Message newMessage;
+            newMessage = new Message
+            {
+                Text = messageText,
+                Date = DateTime.Now,
+                LikeAmount = 0,
+                Sender = user,
+                Image = newImage
+            };
+
             if (replyTo != null)
             {
                 var messageReplaingTo = dbContext.Messages.First(x => x.ID == replyTo);
-                newMessage = new Message
-                                 {
-                                     Text = messageText,
-                                     Date = DateTime.Now,
-                                     LikeAmount = 0,
-                                     Sender = user,
-                                     Image = newImage,
-                                     ReplyTo = messageReplaingTo
-                                 };
+                newMessage.ReplyTo = messageReplaingTo;
             }
-            else
-            {
-                newMessage = new Message
-                                 {
-                                     Text = messageText,
-                                     Date = DateTime.Now,
-                                     LikeAmount = 0,
-                                     Sender = user,
-                                     Image = newImage
-                                 };
-            }
+
             dbContext.Messages.Add(newMessage);
             dbContext.SaveChanges();
         }
