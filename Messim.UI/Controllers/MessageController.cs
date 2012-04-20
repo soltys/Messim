@@ -36,6 +36,7 @@ namespace Messim.UI.Controllers
         //
         // POST: /Message/Send
         [HttpPost]
+        [Authorize]
         public JsonResult Send(string messageText, HttpPostedFileBase messageImage)
         {
             SendMessageToDatabase(messageText, messageImage);
@@ -44,6 +45,7 @@ namespace Messim.UI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Reply(string messageText, HttpPostedFileBase messageImage, int messageId)
         {
             SendMessageToDatabase(messageText, messageImage, messageId);
@@ -55,7 +57,6 @@ namespace Messim.UI.Controllers
         {
             return new JsonResult
                        {
-                           Data = "Success",
                            ContentEncoding = Encoding.UTF8,
                            ContentType = "application/json; charset=UTF-8",
                            JsonRequestBehavior = JsonRequestBehavior.DenyGet
