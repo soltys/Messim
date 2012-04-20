@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,24 +14,29 @@ namespace Messim.UI.Controllers
     {
         //
         // GET: /User/
-        readonly MembershipProvider provider = new MessimMembershipProvider();
+        private readonly MembershipProvider provider = new MessimMembershipProvider();
+        private MessimContext dbContext;
+
+        public UserController()
+        {
+            dbContext = new MessimContext();
+        }
+
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }
-            var db = new MessimContext();
 
-            var user = db.Users.Single(x => x.Username == User.Identity.Name);
+            var user = dbContext.Users.Single(x => x.Username == User.Identity.Name);
 
-            ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
-            var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
+            ViewData["PostNumber"] = dbContext.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
+            var userMessages = dbContext.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
 
             userMessages.Sort((x, y) => y.Date.CompareTo(x.Date));
             ViewData["DisplayMessages"] = userMessages;
             ViewData["Sender"] = user.ID;
-
 
             return View();
         }
@@ -41,6 +45,7 @@ namespace Messim.UI.Controllers
         {
             return View();
         }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Register(string username, string password, string passwordAgain)
         {
@@ -48,12 +53,9 @@ namespace Messim.UI.Controllers
             {
                 return View();
             }
-            using (var _db = new MessimContext())
-            {
-                User newUser = new User { Username = username, Password = SHA.CreateSHA1Hash(password) };
-                _db.Users.Add(newUser);
-                _db.SaveChanges();
-            }
+            User newUser = new User { Username = username, Password = SHA.CreateSHA1Hash(password) };
+            dbContext.Users.Add(newUser);
+            dbContext.SaveChanges();
 
             ViewBag.Success = true;
             return View();
@@ -73,47 +75,45 @@ namespace Messim.UI.Controllers
             {
                 ModelState.AddModelError("_FORM", "Hasła muszą być takie same");
             }
-            using (var _db = new MessimContext())
+
+            if (dbContext.Users.Any() && dbContext.Users.ToList().Any(x => x.Username == username))
             {
-
-                if (_db.Users.Any() && _db.Users.ToList().Any(x => x.Username == username))
-                {
-                    ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
-                }
-
+                ModelState.AddModelError("username", "Nazwa użytkownika jest już zajęta");
             }
+
             return ModelState.IsValid;
         }
+
         public ActionResult List(string username)
         {
-         
-            var db = new MessimContext();
             User user;
             try
             {
-                user = db.Users.Single(x => x.Username == username);
+                user = dbContext.Users.Single(x => x.Username == username);
             }
             catch (Exception)
             {
                 user = null;
                 return RedirectToAction("NoUser");
             }
-            if(user != null)
+            if (user != null)
             {
-                ViewData["PostNumber"] = db.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
+                ViewData["PostNumber"] = dbContext.Messages.Count(x => x.Sender.ID == user.ID && x.ReplyTo == null);
                 ViewData["Username"] = user.Username;
-                var userMessages = db.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
+                var userMessages = dbContext.Messages.Where(x => x.Sender.ID == user.ID && x.ReplyTo == null).ToList();
 
                 userMessages.Sort((x, y) => y.Date.CompareTo(x.Date));
                 ViewData["DisplayMessages"] = userMessages;
             }
 
-            return View();   
+            return View();
         }
+
         public ActionResult Login()
         {
             return View();
         }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(string username, string password, bool rememberUser, string returnUrl)
         {
@@ -132,6 +132,7 @@ namespace Messim.UI.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
         private bool ValidateLogOn(string username, string password)
         {
             if (String.IsNullOrEmpty(username))
@@ -154,6 +155,5 @@ namespace Messim.UI.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
     }
 }

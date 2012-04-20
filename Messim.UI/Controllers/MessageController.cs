@@ -15,15 +15,18 @@ namespace Messim.UI.Controllers
 {
     public class MessageController : Controller
     {
+        private MessimContext dbContext;
 
+        public MessageController()
+        {
+            dbContext = new MessimContext();
+        }
 
         //GET: //Message/<ID
         public ActionResult Details(int id)
         {
-            var db = new MessimContext();
-
-            var msg = db.Messages.First(x => x.ID == id);
-            ViewData["DisplayMessages"] = db.Messages.Where(x => x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
+            var msg = dbContext.Messages.First(x => x.ID == id);
+            ViewData["DisplayMessages"] = dbContext.Messages.Where(x => x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
             ViewData["Message"] = msg;
 
             return View();
@@ -36,7 +39,12 @@ namespace Messim.UI.Controllers
         {
             SendMessageToDatabase(messageText, messageImage);
             // Return JSON
-            var result = new JsonResult { ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8", JsonRequestBehavior = JsonRequestBehavior.DenyGet };
+            var result = new JsonResult
+                             {
+                                 ContentEncoding = Encoding.UTF8,
+                                 ContentType = "application/json; charset=UTF-8",
+                                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
+                             };
             return result;
         }
 
@@ -50,88 +58,94 @@ namespace Messim.UI.Controllers
                 messageImage.SaveAs(path);
             }
             var image = new Bitmap(path);
-            using (var db = new MessimContext())
-            {
-                var user = db.Users.Single(x => x.Username == User.Identity.Name);
-                var newImage = new Image
-                                   {
-                                       URL = "/Content/uploads/" + Path.GetFileName(messageImage.FileName),
-                                       Width = image.Width,
-                                       Height = image.Height
-                                   };
+            var user = dbContext.Users.Single(x => x.Username == User.Identity.Name);
+            var newImage = new Image
+                               {
+                                   URL = "/Content/uploads/" + Path.GetFileName(messageImage.FileName),
+                                   Width = image.Width,
+                                   Height = image.Height
+                               };
 
-                Message newMessage;
-                if (replyTo != null)
-                {
-                    var messageReplaingTo = db.Messages.First(x => x.ID == replyTo);
-                    newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage, ReplyTo = messageReplaingTo };
-                }
-                else
-                {
-                    newMessage = new Message { Text = messageText, Date = DateTime.Now, LikeAmount = 0, Sender = user, Image = newImage };
-                }
-                db.Messages.Add(newMessage);
-                db.SaveChanges();
+            Message newMessage;
+            if (replyTo != null)
+            {
+                var messageReplaingTo = dbContext.Messages.First(x => x.ID == replyTo);
+                newMessage = new Message
+                                 {
+                                     Text = messageText,
+                                     Date = DateTime.Now,
+                                     LikeAmount = 0,
+                                     Sender = user,
+                                     Image = newImage,
+                                     ReplyTo = messageReplaingTo
+                                 };
             }
+            else
+            {
+                newMessage = new Message
+                                 {
+                                     Text = messageText,
+                                     Date = DateTime.Now,
+                                     LikeAmount = 0,
+                                     Sender = user,
+                                     Image = newImage
+                                 };
+            }
+            dbContext.Messages.Add(newMessage);
+            dbContext.SaveChanges();
         }
 
         [HttpPost]
         public ActionResult Reply(string messageText, HttpPostedFileBase messageImage, int messageId)
         {
             Message messageReplaingTo = null;
-            using (var db = new MessimContext())
-            {
-
-            }
             SendMessageToDatabase(messageText, messageImage, messageId);
 
 
-            var result = new JsonResult { ContentEncoding = Encoding.UTF8, ContentType = "application/json; charset=UTF-8", JsonRequestBehavior = JsonRequestBehavior.DenyGet };
+            var result = new JsonResult
+                             {
+                                 ContentEncoding = Encoding.UTF8,
+                                 ContentType = "application/json; charset=UTF-8",
+                                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
+                             };
             return result;
         }
 
         [HttpPost]
         public ActionResult Like(int messageId)
         {
-            using (var db = new MessimContext())
+            var message = dbContext.Messages.SingleOrDefault(x => x.ID == messageId);
+
+            if (message == null)
             {
-                var message = db.Messages.SingleOrDefault(x => x.ID == messageId);
-
-                if (message == null)
-                {
-                    //FIXME: log error
-                    return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
-                }
-
-                message.LikeAmount += 1;
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
-                return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " liked" } };
+                //FIXME: log error
+                return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
             }
+
+            message.LikeAmount += 1;
+            dbContext.Entry(message).State = EntityState.Modified;
+            dbContext.SaveChanges();
+            return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " liked" } };
         }
 
         [HttpPost]
         public ActionResult Dislike(int messageId)
         {
-            using (var db = new MessimContext())
+            var message = dbContext.Messages.SingleOrDefault(x => x.ID == messageId);
+
+            if (message == null)
             {
-                var message = db.Messages.SingleOrDefault(x => x.ID == messageId);
-
-                if (message == null)
-                {
-                    //FIXME: log error
-                    return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
-                }
-                if (message.LikeAmount > 0)
-                {
-                    message.LikeAmount -= 1;
-                }
-                db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
-                return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
+                //FIXME: log error
+                return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
             }
+            if (message.LikeAmount > 0)
+            {
+                message.LikeAmount -= 1;
+            }
+            dbContext.Entry(message).State = EntityState.Modified;
+            dbContext.SaveChanges();
+            return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
         }
-
     }
 
     public class FileUploadJsonResult : JsonResult

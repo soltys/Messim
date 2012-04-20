@@ -11,7 +11,12 @@ namespace Messim.UI.Controllers
     {
         //
         // GET: /Home/
+        private MessimContext dbContext;
 
+        public HomeController()
+        {
+            dbContext = new MessimContext();
+        }
         public ActionResult Index()
         {
             return View();
@@ -19,21 +24,17 @@ namespace Messim.UI.Controllers
 
         public ActionResult New()
         {
-            Message[] newMessages = null;
-            var db = new MessimContext();
-
-            newMessages = db.Messages.Where(x=> x.ReplyTo == null).OrderByDescending(x => x.Date).Take(50).ToArray();
+            var newMessages = dbContext.Messages.Where(x => x.ReplyTo == null).OrderByDescending(x => x.Date).Take(50).ToList();
 
             ViewData["DisplayMessages"] = newMessages;
 
             return View();
         }
+
         public ActionResult Best()
         {
-            Message[] newMessages = null;
-            var db = new MessimContext();
-
-            newMessages = db.Messages.Where(x=> x.ReplyTo == null).OrderByDescending(x => x.LikeAmount).Take(50).ToArray();
+            var newMessages =
+                dbContext.Messages.Where(x => x.ReplyTo == null).OrderByDescending(x => x.LikeAmount).Take(50).ToList();
 
             ViewData["DisplayMessages"] = newMessages;
 

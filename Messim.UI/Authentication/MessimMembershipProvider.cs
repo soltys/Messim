@@ -42,9 +42,9 @@ namespace Messim.UI.Authentication
         {
             if (string.IsNullOrEmpty(password.Trim())) return false;
             string hash = SHA.CreateSHA1Hash(password);
-            using (var _db = new MessimContext())
+            using (var dbContext = new MessimContext())
             {
-                User user = _db.Users.SingleOrDefault(x => x.Username == username);
+                User user = dbContext.Users.SingleOrDefault(x => x.Username == username);
                 if (user == null) return false;
                 if (user.Password == hash)
                 {
