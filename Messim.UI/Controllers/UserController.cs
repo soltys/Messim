@@ -46,7 +46,7 @@ namespace Messim.UI.Controllers
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public ActionResult Register(string username, string password, string passwordAgain)
         {
             if (!ValidateRegister(username, password, passwordAgain))
@@ -114,7 +114,7 @@ namespace Messim.UI.Controllers
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public ActionResult Login(string username, string password, bool rememberUser, string returnUrl)
         {
             if (!ValidateLogOn(username, password))
