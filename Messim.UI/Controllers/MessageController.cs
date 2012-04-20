@@ -26,7 +26,8 @@ namespace Messim.UI.Controllers
         public ActionResult Details(int id)
         {
             var msg = dbContext.Messages.First(x => x.ID == id);
-            ViewData["DisplayMessages"] = dbContext.Messages.Where(x => x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
+            ViewData["DisplayMessages"] =
+                dbContext.Messages.Where(x => x.ReplyTo != null && x.ReplyTo.ID == id).ToList();
             ViewData["Message"] = msg;
 
             return View();
@@ -38,14 +39,27 @@ namespace Messim.UI.Controllers
         public JsonResult Send(string messageText, HttpPostedFileBase messageImage)
         {
             SendMessageToDatabase(messageText, messageImage);
-            // Return JSON
-            var result = new JsonResult
-                             {
-                                 ContentEncoding = Encoding.UTF8,
-                                 ContentType = "application/json; charset=UTF-8",
-                                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
-                             };
-            return result;
+
+            return SuccessJsonResult();
+        }
+
+        [HttpPost]
+        public ActionResult Reply(string messageText, HttpPostedFileBase messageImage, int messageId)
+        {
+            SendMessageToDatabase(messageText, messageImage, messageId);
+
+            return SuccessJsonResult();
+        }
+
+        private JsonResult SuccessJsonResult()
+        {
+            return new JsonResult
+                       {
+                           Data = "Success",
+                           ContentEncoding = Encoding.UTF8,
+                           ContentType = "application/json; charset=UTF-8",
+                           JsonRequestBehavior = JsonRequestBehavior.DenyGet
+                       };
         }
 
         private void SendMessageToDatabase(string messageText, HttpPostedFileBase messageImage, int? replyTo = null)
@@ -67,13 +81,13 @@ namespace Messim.UI.Controllers
                                };
 
             var newMessage = new Message
-                                     {
-                                         Text = messageText,
-                                         Date = DateTime.Now,
-                                         LikeAmount = 0,
-                                         Sender = user,
-                                         Image = newImage
-                                     };
+                                 {
+                                     Text = messageText,
+                                     Date = DateTime.Now,
+                                     LikeAmount = 0,
+                                     Sender = user,
+                                     Image = newImage
+                                 };
 
             if (replyTo != null)
             {
@@ -85,21 +99,6 @@ namespace Messim.UI.Controllers
             dbContext.SaveChanges();
         }
 
-        [HttpPost]
-        public ActionResult Reply(string messageText, HttpPostedFileBase messageImage, int messageId)
-        {
-            Message messageReplaingTo = null;
-            SendMessageToDatabase(messageText, messageImage, messageId);
-
-
-            var result = new JsonResult
-                             {
-                                 ContentEncoding = Encoding.UTF8,
-                                 ContentType = "application/json; charset=UTF-8",
-                                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
-                             };
-            return result;
-        }
 
         [HttpPost]
         public ActionResult Like(int messageId)
@@ -115,7 +114,7 @@ namespace Messim.UI.Controllers
             message.LikeAmount += 1;
             dbContext.Entry(message).State = EntityState.Modified;
             dbContext.SaveChanges();
-            return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " liked" } };
+            return new JsonResult { Data = new { ConsoleMessage = "Message ID: " + messageId + " was liked" } };
         }
 
         [HttpPost]
