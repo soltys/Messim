@@ -66,15 +66,14 @@ namespace Messim.UI.Controllers
                                    Height = image.Height
                                };
 
-            Message newMessage;
-            newMessage = new Message
-            {
-                Text = messageText,
-                Date = DateTime.Now,
-                LikeAmount = 0,
-                Sender = user,
-                Image = newImage
-            };
+            var newMessage = new Message
+                                     {
+                                         Text = messageText,
+                                         Date = DateTime.Now,
+                                         LikeAmount = 0,
+                                         Sender = user,
+                                         Image = newImage
+                                     };
 
             if (replyTo != null)
             {
@@ -136,17 +135,6 @@ namespace Messim.UI.Controllers
             dbContext.Entry(message).State = EntityState.Modified;
             dbContext.SaveChanges();
             return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
-        }
-    }
-
-    public class FileUploadJsonResult : JsonResult
-    {
-        public override void ExecuteResult(ControllerContext context)
-        {
-            this.ContentType = "text/html";
-            context.HttpContext.Response.Write("<textarea>");
-            base.ExecuteResult(context);
-            context.HttpContext.Response.Write("</textarea>");
         }
     }
 }
