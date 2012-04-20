@@ -11,7 +11,7 @@
 <p style="margin-bottom: 22px"><span style="font-size: 21pt">@Model.Sender.Username</span> <span class="triangle-right left">@Model.Text</span></p>
     <img src="@Model.Image.URL" width="@Model.Image.Width" height="@Model.Image.Height" alt="@Model.Date"/>
      <div class="fb-like" data-href="@Request.Url.Authority/Message/@Model.ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial">
-    <div class="row-fluid">
+    <div class="row">
         @if (User.Identity.IsAuthenticated)
         {
             <div class="span4">
