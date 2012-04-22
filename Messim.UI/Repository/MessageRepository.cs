@@ -18,12 +18,11 @@ namespace Messim.UI.Repository
             }
         }
 
-        public IEnumerable<Message> FindBy(Expression<Func<Message, bool>> predicate)
+        public IEnumerable<Message> FindBy(Func<Message, bool> predicate)
         {
-            var where = predicate.Compile();
             using (var db = new MessimContext())
             {
-                return db.Messages.Where(where.Invoke);
+                return db.Messages.Where(predicate.Invoke);
             }
         }
 
