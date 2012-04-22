@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="ControllersIoCTests.cs" />
     <Compile Include="Helpers\RouteHelpers.cs" />
+    <Compile Include="Mocks\UserRepositoryMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoutingTests.cs" />
   </ItemGroup>
