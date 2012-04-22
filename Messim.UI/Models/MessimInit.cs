@@ -13,7 +13,6 @@ namespace Messim.UI.Models
 
         public void InitializeDatabase(MessimContext context)
         {
-            bool dbExists;
             bool alreadyCreated;
             using (new TransactionScope(TransactionScopeOption.Suppress))
             {

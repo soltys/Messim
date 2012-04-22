@@ -5,7 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
 using Messim.UI.Models;
+using Messim.UI.Plumbing;
 
 namespace Messim.UI
 {
@@ -14,6 +17,7 @@ namespace Messim.UI
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static IWindsorContainer container;
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -61,7 +65,21 @@ namespace Messim.UI
 #else
             Database.SetInitializer(new MessimInit());
 #endif
+            BootstrapContainer();
+        }
 
+        private static void BootstrapContainer()
+        {
+            container = new WindsorContainer()
+                .Install(FromAssembly.This());
+            var controllerFactory = new WindsorControllerFactory(container.Kernel);
+            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+
+        }
+
+        protected void Application_End()
+        {
+            container.Dispose();
         }
     }
 }

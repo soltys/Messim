@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Security;
+using Castle.Core.Logging;
 using Messim.UI.Models;
 using Messim.Util;
+
 
 namespace Messim.UI.Authentication
 {
@@ -45,7 +47,10 @@ namespace Messim.UI.Authentication
             using (var dbContext = new MessimContext())
             {
                 User user = dbContext.Users.SingleOrDefault(x => x.Username == username);
-                if (user == null) return false;
+                if (user == null)
+                {
+                    return false;
+                }
                 if (user.Password == hash)
                 {
                     return true;
