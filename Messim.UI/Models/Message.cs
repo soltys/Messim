@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Messim.UI.Models
 {
@@ -15,7 +17,7 @@ namespace Messim.UI.Models
 
         public virtual User Sender { get; set; }
         public DateTime Date { get; set; }
-        public int LikeAmount { get; set; }
+        public virtual List<User> WhoLikes { get; set; }
 
         public virtual Message ReplyTo { get; set; }
     }

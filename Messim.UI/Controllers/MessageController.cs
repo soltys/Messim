@@ -22,7 +22,7 @@ namespace Messim.UI.Controllers
             dbContext = new MessimContext();
         }
 
-        //GET: //Message/<ID
+        //GET: //Message/ID
         public ActionResult Details(int id)
         {
             var msg = dbContext.Messages.First(x => x.ID == id);
@@ -85,7 +85,7 @@ namespace Messim.UI.Controllers
                                  {
                                      Text = messageText,
                                      Date = DateTime.Now,
-                                     LikeAmount = 0,
+                                     WhoLikes = new List<User>(),
                                      Sender = user,
                                      Image = newImage
                                  };
@@ -105,14 +105,23 @@ namespace Messim.UI.Controllers
         public ActionResult Like(int messageId)
         {
             var message = dbContext.Messages.SingleOrDefault(x => x.ID == messageId);
-
+            var personlikes = dbContext.Users.SingleOrDefault(x => x.Username == User.Identity.Name);
             if (message == null)
             {
                 //FIXME: log error
                 return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
             }
 
-            message.LikeAmount += 1;
+            if (personlikes == null)
+            {
+                return new JsonResult() { Data = new { ConsoleMessage = "no such user in DB" } };
+            }
+
+            if (!message.WhoLikes.Contains(personlikes))
+            {
+                message.WhoLikes.Add(personlikes);
+            }
+
             dbContext.Entry(message).State = EntityState.Modified;
             dbContext.SaveChanges();
             return new JsonResult { Data = new { ConsoleMessage = "Message ID: " + messageId + " was liked" } };
@@ -122,19 +131,36 @@ namespace Messim.UI.Controllers
         public ActionResult Dislike(int messageId)
         {
             var message = dbContext.Messages.SingleOrDefault(x => x.ID == messageId);
-
+            var personlikes = dbContext.Users.SingleOrDefault(x => x.Username == User.Identity.Name);
             if (message == null)
             {
                 //FIXME: log error
                 return new JsonResult() { Data = new { ConsoleMessage = "no such message in DB" } };
             }
-            if (message.LikeAmount > 0)
+
+            if (personlikes == null)
             {
-                message.LikeAmount -= 1;
+                return new JsonResult() { Data = new { ConsoleMessage = "no such user in DB" } };
+            }
+
+            if (message.WhoLikes.Contains(personlikes))
+            {
+                message.WhoLikes.Remove(personlikes);
             }
             dbContext.Entry(message).State = EntityState.Modified;
             dbContext.SaveChanges();
             return new JsonResult { Data = new { ConsoleMessage = "Message with " + messageId + " unliked" } };
+        }
+
+        [HttpPost]
+        public ActionResult CheckMessageStatus(int messageId)
+        {
+            var message = dbContext.Messages.SingleOrDefault(x => x.ID == messageId);
+            var user = dbContext.Users.Single(x => x.Username == User.Identity.Name);
+
+            bool currentUserLike = message.WhoLikes.Contains(user);
+            int voteCount = message.WhoLikes.Count;
+            return new JsonResult { Data = new { CurrentUserLike = currentUserLike, VoteCount = voteCount, ConsoleMessage = "Message with " + messageId + " unliked" } };
         }
     }
 }

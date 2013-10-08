@@ -29,8 +29,8 @@
                 <img src="@message.Image.URL" width="@message.Image.Width" height="@message.Image.Height" alt="Wysłane @message.Date"/>
             </a>
             <div style="clear: both;"></div>
-            <div class="fb-like" data-href="@Request.Url.Authority/Message/@message.ID" data-send="false" data-layout="button_count"  colorscheme="dark"  data-width="50" data-show-faces="false" data-font="arial">
-            </div>
+            
+            <a class="btn votebtn disabled" href="#" data-messageId="@message.ID">---</a>
             
         </div>
         

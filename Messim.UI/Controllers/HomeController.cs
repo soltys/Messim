@@ -34,7 +34,7 @@ namespace Messim.UI.Controllers
         public ActionResult Best()
         {
             var newMessages =
-                dbContext.Messages.Where(x => x.ReplyTo == null).OrderByDescending(x => x.LikeAmount).Take(50).ToList();
+                dbContext.Messages.Where(x => x.ReplyTo == null).OrderByDescending(x => x.WhoLikes.Count).Take(50).ToList();
 
             ViewData["DisplayMessages"] = newMessages;
 

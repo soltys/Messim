@@ -6,40 +6,43 @@
     $("#nav-bar-home").addClass("active");
 </script>
 <div class="hero-unit">
-    <h1>
-        Poznaj Messim!
-    </h1>
-    <p>
-        Donec id elit nson mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
-        commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-    </p>
-    <p>
-        <a href="/User/Register" class="btn btn-primary btn-large">Zarejestruj się! &raquo;</a>
-    </p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h1>Podziel się nową wiadomością</h1>
+        <p>Messim jest tworzony przez takich ludzi jak ty!</p>
+        <a href="/User" class="btn btn-primary btn-large">Wyślij nową wiadomość &raquo;</a>
+    }
+    else
+    {
+        
+        <h1>Poznaj Messim!
+        </h1>
+        <p>
+            Messim to strona w która pozwala na dzielenie się informacji i EMOCJAMI z całym światem.
+        </p>
+        <p>
+            <a href="/User/Register" class="btn btn-primary btn-large">Zarejestruj się! &raquo;</a>
+        </p>
+    }
 </div>
-<!-- Example row of columns -->
+
 <div class="row">
     <div class="span6">
-        <h2>
-            Zobacz co jest New</h2>
+        <h2>Zobacz co jest New</h2>
         <p>
-            Donec id elit nson mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
-            commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+            Zobacz co TERAZ dzieje się w świecie Messim
         </p>
         <p>
-            <a href="/New" class="btn" href="#">View details &raquo;</a></p>
+            <a href="/New" class="btn" href="#">NEW &raquo;</a>
+        </p>
     </div>
     <div class="span6">
-        <h2>
-            Zobacz co jest Best</h2>
+        <h2>Zobacz co jest Best</h2>
         <p>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus
-            commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+            Zobacz najwyżej oceniane wiadomościami
         </p>
         <p>
-            <a href="/Best" class="btn" href="#">View details &raquo;</a></p>
+            <a href="/Best" class="btn" href="#">BEST &raquo;</a>
+        </p>
     </div>
 </div>

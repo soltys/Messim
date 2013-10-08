@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messim.UI", "Messim.UI\Messim.UI.csproj", "{B2EF9322-6CBE-4618-8CB4-96B4D08EB7AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messum.UI.Test", "Messum.UI.Test\Messum.UI.Test.csproj", "{0296860F-A451-463D-A7B4-AF227CA24BFD}"
