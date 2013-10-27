@@ -21,6 +21,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,6 +119,10 @@
     <Compile Include="Service\MessimDataService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\MessimData.mdf" />
+    <Content Include="App_Data\MessimData_log.ldf">
+      <DependentUpon>MessimData.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\apple-touch-icon-114x114-precomposed.png" />
     <Content Include="Content\apple-touch-icon-57x57-precomposed.png" />
     <Content Include="Content\apple-touch-icon-72x72-precomposed.png" />
@@ -252,7 +260,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\" />
   </ItemGroup>
   <PropertyGroup>
